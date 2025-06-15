@@ -283,7 +283,6 @@ function(create_target)
     # Copy the public interface into the build directory.
     file(COPY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Include/${PROJECT_NAME}.h" 
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.h")
-    include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
     add_library(${PROJECT_NAME} ${SOURCES})
     set_target_properties(${PROJECT_NAME} PROPERTIES 
@@ -293,7 +292,7 @@ function(create_target)
         C_STANDARD 23
         C_STANDARD_REQUIRED ON
     )
-    target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Include")
+    target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Include" PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
 
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wpedantic -Wextra)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
