@@ -293,28 +293,28 @@ function(create_target)
         C_STANDARD 23
         C_STANDARD_REQUIRED ON
     )
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Include")
+    target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Include")
 
-    target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Werror -Wpedantic -Wextra)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wpedantic -Wextra)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
         # https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html
         set_target_properties(${PROJECT_NAME} PROPERTIES EXPORT_COMPILE_COMMANDS ON)
 
-        target_compile_options(${PROJECT_NAME} PUBLIC -Og -g3 -ggdb -fsanitize=address 
+        target_compile_options(${PROJECT_NAME} PRIVATE -Og -g3 -ggdb -fsanitize=address 
             -fsanitize=pointer-compare  -fsanitize=leak -fsanitize=pointer-subtract 
             -fsanitize=undefined)
-        target_link_options(${PROJECT_NAME} PUBLIC -fsanitize=address 
+        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address 
             -fsanitize=undefined)
 
         if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
             # https://gcc.gnu.org/onlinedocs/gcc/Static-Analyzer-Options.html
-            target_compile_options(${PROJECT_NAME} PUBLIC -fanalyzer)
+            target_compile_options(${PROJECT_NAME} PRIVATE -fanalyzer)
         endif()
     else()
         # https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#index-march-15
         # https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#index-mtune-17
-        target_compile_options(${PROJECT_NAME} PUBLIC -march=native -mtune=native 
+        target_compile_options(${PROJECT_NAME} PRIVATE -march=native -mtune=native 
             -Ofast -flto)
-        target_link_options(${PROJECT_NAME} PUBLIC -Ofast -flto)
+        target_link_options(${PROJECT_NAME} PRIVATE -Ofast -flto)
     endif()
 endfunction()
