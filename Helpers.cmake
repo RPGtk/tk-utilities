@@ -270,6 +270,16 @@ endmacro()
 #################################################################################
 
 function(run_checks)
+    cmake_parse_arguments(args "CHILD" "" "" "${ARGN}")
+
+    if(args_CHILD)
+        if(NOT PROJECT_NAME STREQUAL TOPMOST_PROJECT_NAME)
+            message(FATAL_ERROR "This project requires its parent, ${TOPMOST_PROJECT_NAME}.")
+        endif()
+    else()
+        set(TOPMOST_PROJECT_NAME "${PROJECT_NAME}" PARENT_SCOPE)
+    endif()
+
     # We only support Linux. Everything else can go kick rocks.
     if(NOT UNIX OR APPLE)
         message(FATAL_ERROR "This operating system is not supported by ${PROJECT_NAME}.")
