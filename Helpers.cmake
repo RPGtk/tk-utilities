@@ -34,7 +34,7 @@ function(create_target EXECUTABLE)
     else()
         add_executable(${PROJECT_NAME} ${SOURCES})
     endif()
-    target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Include" PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Include")
 
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wpedantic -Wextra)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
