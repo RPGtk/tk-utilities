@@ -59,3 +59,22 @@ function(create_target EXECUTABLE)
         target_link_options(${PROJECT_NAME} PRIVATE -Ofast -flto)
     endif()
 endfunction()
+
+function(link_external NAME)
+    cmake_parse_arguments(PARSE_ARGV 1 args "" "" "COMPONENTS")
+
+    if(NOT args_COMPONENTS)
+        find_package(${NAME} REQUIRED)
+        target_link_libraries(${PROJECT_NAME} ${${NAME}_LIBRARIES})
+    else()    
+        find_package(${NAME} REQUIRED COMPONENTS ${args_COMPONENTS})
+
+        set(LINK_TARGETS ${${NAME}_LIBRARIES})
+        foreach(component ${args_COMPONENTS})
+            list(APPEND LINK_TARGETS ${component})
+        endforeach()
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${LINK_TARGETS})
+    endif()
+
+    target_include_directories(${PROJECT_NAME} PRIVATE ${${NAME}_INCLUDE_DIRS})
+endfunction()
