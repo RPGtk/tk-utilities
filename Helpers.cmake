@@ -9,6 +9,11 @@ function(run_checks)
         set(TOPMOST_PROJECT_NAME "${PROJECT_NAME}" PARENT_SCOPE)
     endif()
 
+    if(NOT DEFINED CMAKE_BUILD_TYPE)
+        message(WARNING "No build type given, assuming debug.")
+        set(CMAKE_BUILD_TYPE "Debug")
+    endif()
+
     # We only support Linux. Everything else can go kick rocks.
     if(NOT UNIX OR APPLE)
         message(FATAL_ERROR "This operating system is not supported by ${PROJECT_NAME}.")
