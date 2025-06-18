@@ -27,7 +27,7 @@ function(create_target EXECUTABLE)
             PUBLIC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.h"
         )
         # Copy the public interface into the build directory.
-        file(COPY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Include/${PROJECT_NAME}.h" 
+        file(COPY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.h" 
             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.h")
     else()
         add_executable(${PROJECT_NAME} ${SOURCES})
@@ -38,7 +38,7 @@ function(create_target EXECUTABLE)
         C_STANDARD_REQUIRED ON
     )
 
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Include")
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wpedantic -Wextra)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
