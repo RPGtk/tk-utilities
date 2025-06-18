@@ -16,8 +16,13 @@ function(run_checks)
 endfunction()
 
 function(create_target EXECUTABLE)
+    cmake_parse_arguments(PARSE_ARGV 1 args "" "" "RAW_SOURCES")
+
     set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source")
-    file(GLOB SOURCES "${SOURCE_DIR}/*.c" "${SOURCE_DIR}/Targets/*.c")
+    set(SOURCES)
+    foreach(source ${args_RAW_SOURCES})
+        list(APPEND SOURCES "${SOURCE_DIR}/${source}.c")
+    endforeach()
 
     if(NOT ${EXECUTABLE})
         add_library(${PROJECT_NAME} ${SOURCES})
