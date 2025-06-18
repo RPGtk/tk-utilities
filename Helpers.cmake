@@ -25,8 +25,6 @@ function(create_target EXECUTABLE)
             VERSION ${PROJECT_VERSION}
             SOVERSION ${PROJECT_VERSION_MAJOR}
             PUBLIC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.h"
-            C_STANDARD 23
-            C_STANDARD_REQUIRED ON
         )
         # Copy the public interface into the build directory.
         file(COPY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Include/${PROJECT_NAME}.h" 
@@ -34,6 +32,12 @@ function(create_target EXECUTABLE)
     else()
         add_executable(${PROJECT_NAME} ${SOURCES})
     endif()
+
+    set_target_properties(${PROJECT_NAME} PROPERTIES             
+        C_STANDARD 23
+        C_STANDARD_REQUIRED ON
+    )
+
     target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Include")
 
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wpedantic -Wextra)
