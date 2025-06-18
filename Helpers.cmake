@@ -16,7 +16,7 @@ function(run_checks)
 endfunction()
 
 function(create_target EXECUTABLE)
-    cmake_parse_arguments(PARSE_ARGV 1 args "" "" "RAW_SOURCES")
+    cmake_parse_arguments(PARSE_ARGV 1 args "" "OVERRIDE_SHARED" "RAW_SOURCES")
 
     set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source")
     set(SOURCES)
@@ -25,7 +25,12 @@ function(create_target EXECUTABLE)
     endforeach()
 
     if(NOT ${EXECUTABLE})
-        add_library(${PROJECT_NAME} ${SOURCES})
+        if(NOT args_OVERRIDE_SHARED)
+            add_library(${PROJECT_NAME} ${SOURCES})
+        else()
+            add_library(${PROJECT_NAME} SHARED ${SOURCES})
+        endif()
+
         set_target_properties(${PROJECT_NAME} PROPERTIES 
             VERSION ${PROJECT_VERSION}
             SOVERSION ${PROJECT_VERSION_MAJOR}
